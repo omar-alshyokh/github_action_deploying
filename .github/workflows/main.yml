@@ -16,3 +16,8 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+      - name: Build APK and Android Bundle
+      - run: flutter pub get
+      - run: flutter test
+      - run: flutter build apk
+      - run: flutter build appbundle
