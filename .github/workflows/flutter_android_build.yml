@@ -1,33 +1,33 @@
-name: ✔ Flutter Release
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
-jobs:
-  android-release-build:
-    name: android-release-build
-    runs-on: ubuntu-latest
-    container: ghcr.io/niklaslehnfeld/flutter-essentials-docker:master
-    steps:
-      - uses: actions/checkout@v2
-      - uses: NiklasLehnfeld/flutter-android-build-action@v1
-        id: android-build
-        with:
-          release: true
-          keystore: ${{ secrets.RELEASE_KEYSTORE }}
-          keystore-pwd: "${{ secrets.SIGNING_STORE_PASSWORD }}"
-          key-pwd: "${{ secrets.SIGNING_KEY_PASSWORD }}"
-      - name: Archive APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-apk
-          path: ${{ steps.android-build.outputs.apk-path }}
-      - name: Archive AAB
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-aab
-          path: ${{ steps.android-build.outputs.aab-path }}
+#name: ✔ Flutter Release
+#on:
+#  push:
+#    branches:
+#      - master
+#  pull_request:
+#    branches:
+#      - master
+#
+#jobs:
+#  android-release-build:
+#    name: android-release-build
+#    runs-on: ubuntu-latest
+#    container: ghcr.io/niklaslehnfeld/flutter-essentials-docker:master
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: NiklasLehnfeld/flutter-android-build-action@v1
+#        id: android-build
+#        with:
+#          release: true
+##          keystore: ${{ secrets.RELEASE_KEYSTORE }}
+#          keystore-pwd: "${{ secrets.SIGNING_STORE_PASSWORD }}"
+#          key-pwd: "${{ secrets.SIGNING_KEY_PASSWORD }}"
+#      - name: Archive APK
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: release-apk
+#          path: ${{ steps.android-build.outputs.apk-path }}
+#      - name: Archive AAB
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: release-aab
+#          path: ${{ steps.android-build.outputs.aab-path }}
