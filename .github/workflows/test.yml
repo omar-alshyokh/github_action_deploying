@@ -17,3 +17,8 @@ jobs:
           DEBUG_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: |
           echo $DEBUG_PASSWORD >> secrets.txt | xxd -ps
+      - name: Upload artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: cats
+            path: .
