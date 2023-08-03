@@ -31,6 +31,7 @@ jobs:
 #        env:
 #          KEYSTORE_PROPERTIES_PATH: ${{ github.workspace }}/app/android/keystore.properties
         run: |
+          touch ${{ github.workspace }}/app/android/keystore.properties
           echo '${{ inputs.flavor }}StoreFile=${{ github.workspace }}/android-keystore.jks' > ${{ github.workspace }}/app/android/keystore.properties
           echo '${{ inputs.flavor }}KeyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}' >> ${{ github.workspace }}/app/android/keystore.properties
           echo '${{ inputs.flavor }}StorePassword=${{ secrets.KEYSTORE_PASSWORD }}' >> ${{ github.workspace }}/app/android/keystore.properties
