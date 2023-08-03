@@ -20,9 +20,10 @@ jobs:
           KEYSTORE_KEY_PASS: ${{ secrets.KEYSTORE_KEY_PASS }}
           KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
         run:
-          echo $KEYSTORE >> secrets.txt
-          echo $KEYSTORE_KEY_PASS >> secrets.txt
-          echo $KEYSTORE_KEY_ALIAS >> secrets.txt
+          echo "storePassword=${{ secrets.KEYSTORE }}" >> secrets.txt
+          echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASS }}" >> secrets.txt
+          echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> secrets.txt
+          echo "storeFile=keystore.jks" >> secrets.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
