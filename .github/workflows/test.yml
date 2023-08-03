@@ -13,9 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up secret file
-        run: |
-          echo 'omar=${{ secrets.KEYSTORE_PASSWORD }}' >> secrets.txt
+      - name: Build Android App Bundle
+        id: build-android
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE_PASSWORD }}
+        run:
+          echo $KEYSTORE >> secrets.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
