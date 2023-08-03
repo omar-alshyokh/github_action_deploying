@@ -1,16 +1,16 @@
-name: Android Build
-
-on:
-  push:
-    branches:
-      - master  # Change this to the branch you want to trigger the build on (e.g., master)
-
-jobs:
-  build:
-    name: Build Android App Bundle
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
+#name: Android Build
+#
+#on:
+#  push:
+#    branches:
+#      - master  # Change this to the branch you want to trigger the build on (e.g., master)
+#
+#jobs:
+#  build:
+#    name: Build Android App Bundle
+#    runs-on: macos-latest
+#    steps:
+#      - uses: actions/checkout@v2
 #      - name: Setup Java
 #        uses: actions/setup-java@v2
 #        with:
@@ -23,42 +23,13 @@ jobs:
 #          flutter-version: "3.7.10"
 #          channel: 'stable'
 #          cache: true
-#      - name: 🔐 Retrieve base64 keystore and decode it to a file
-#        env:
-#          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
-#        run: echo $KEYSTORE_BASE64 | base64 --decode > "${{ github.workspace }}/android-keystore.jks"
-#      - name: Create the Keystore
-#        env:
-#          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
-#        run: |
-#          # import keystore from secrets
-#          echo $KEYSTORE_BASE64 | base64 -d > $RUNNER_TEMP/my_production.jks
 #      - name: 📝🔐 Create keystore.properties file
-#        env:
-#          KEYSTORE_PROPERTIES_PATH: ${{ github.workspace }}/app/android/keystore.properties
 #        run: |
-#          touch ${{ github.workspace }}/app/android/keystore.properties
-#          echo '${{ inputs.flavor }}StoreFile=${{ github.workspace }}/android-keystore.jks' > ${{ github.workspace }}/app/android/keystore.properties
-#          echo '${{ inputs.flavor }}KeyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}' >> ${{ github.workspace }}/app/android/keystore.properties
-#          echo '${{ inputs.flavor }}StorePassword=${{ secrets.KEYSTORE_PASSWORD }}' >> ${{ github.workspace }}/app/android/keystore.properties
-#          echo '${{ inputs.flavor }}KeyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> ${{ github.workspace }}/app/android/keystore.properties
-#        run: |
-#          echo keyPassword=\${{ secrets.KEYSTORE_KEY_PASSWORD }} > ${{env.PROPERTIES_PATH}}
-#          echo storePassword=\${{ secrets.KEYSTORE_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
-#          echo keyAlias=\${{ secrets.KEYSTORE_KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
-      - name: 📝🔐 Create keystore.properties file
-        run: |
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
-          echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=keystore.jks" >> android/key.properties
-      - name: List Files in android Directory
-        run: |
-          ls -R android
-      - name: Print key.properties Content
-        run: |
-          cat android/key.properties
-
+#          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+#          echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
+#          echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> android/key.properties
+#          echo "storeFile=keystore.jks" >> android/key.properties
+#
 #      - name: 🔐 Retrieve base64 keystore and decode it to a file
 #        run: |
 #          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
