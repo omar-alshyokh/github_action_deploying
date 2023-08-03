@@ -8,15 +8,14 @@ on:
 jobs:
   build:
     name: Build Android App Bundle
-      with: # Set the secret as an input
-        super_secret: ${{ secrets.KEYSTORE_PASSWORD }}
-      env: # Or as an environment variable
-        super_secret: ${{ secrets.KEYSTORE_PASSWORD }}
     runs-on: macos-latest
     steps:
-      -
       - uses: actions/checkout@v3
-
+      - name: Hello world action
+        with: # Set the secret as an input
+          super_secret: ${{ secrets.KEYSTORE_PASSWORD }}
+        env: # Or as an environment variable
+          super_secret: ${{ secrets.KEYSTORE_PASSWORD }}
       - name: Set up secret file
         run: |
           echo 'omar=$super_secret' >> secrets.txt
