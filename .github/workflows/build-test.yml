@@ -8,8 +8,8 @@ on:
 jobs:
   build:
     name: Build Android App Bundle
-    runs-on: macos-latest
     environment: PROD
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java
@@ -57,8 +57,8 @@ jobs:
 
       - name: 🔐 Retrieve base64 keystore and decode it to a file
         run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
-#          cat +x android/app/keystore.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
+          chmod +x android/app/keystore.jks
       - name: Verify JKS File
         run: |
           if [ -f "android/app/keystore.jks" ]; then
