@@ -18,7 +18,7 @@ jobs:
         run: |
           echo $DEBUG_PASSWORD >> secrets.txt
       - name: Upload artifact
-          uses: actions/upload-artifact@v3
-          with:
-            name: cats
-            path: secrets.txt
+        uses: actions/upload-artifact@v3
+        with:
+          name: cats
+          path: secrets.txt
