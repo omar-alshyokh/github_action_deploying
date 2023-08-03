@@ -48,9 +48,9 @@ jobs:
 #          echo keyAlias=\${{ secrets.KEYSTORE_KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
       - name: 📝🔐 Create keystore.properties file
         run: |
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
-          echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> android/key.properties
+          echo "storePassword=omar123" >> android/key.properties
+          echo "keyPassword=omar123" >> android/key.properties
+          echo "keyAlias=upload" >> android/key.properties
           echo "storeFile=keystore.jks" >> android/key.properties
 
       - name: 🔐 Retrieve base64 keystore and decode it to a file
