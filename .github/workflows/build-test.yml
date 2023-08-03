@@ -22,8 +22,8 @@ jobs:
         with:
           flutter-version: "3.7.10"
 
-      - name: Decode android/neumodore_key.jks
-        run: echo "${{ secrets.KEYSTORE_JKS_PROD }}" | base64 --decode > android/keystore.jks
+      - name: Decode android/upload-keystore.jks
+        run: echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 --decode > android/keystore.jks
 
       - name: Decode android/key.properties
         run: echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 --decode > android/key.properties
