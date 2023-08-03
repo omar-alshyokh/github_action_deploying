@@ -55,8 +55,8 @@ jobs:
 
       - name: 🔐 Retrieve base64 keystore and decode it to a file
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > android/app/keystore.jks
-          chmod +x android/app/keystore.jks
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
+          cat +x android/app/keystore.jks
 
       - name: Build Android App Bundle
         run: flutter build appbundle
