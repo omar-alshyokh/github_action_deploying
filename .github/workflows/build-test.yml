@@ -9,21 +9,17 @@ jobs:
   build:
     name: Build Android App Bundle
     runs-on: macos-latest
-
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
+      - uses: actions/checkout@v2
+      - name: Setup Java
         uses: actions/setup-java@v2
         with:
-          java-version: '12.x'
-
-      - name: Install Flutter
+          java-version: "12.x"
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.7.10'  # Replace with the desired Flutter version
-
+          flutter-version: "3.7.10"
+          cache: true
       - name: Build Android App Bundle
         run: flutter build appbundle
 
