@@ -17,8 +17,12 @@ jobs:
         id: build-android
         env:
           KEYSTORE: ${{ secrets.KEYSTORE_PASS }}
+          KEYSTORE_KEY_PASS: ${{ secrets.KEYSTORE_KEY_PASS }}
+          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
         run:
           echo $KEYSTORE >> secrets.txt
+          echo $KEYSTORE_KEY_PASS >> secrets.txt
+          echo $KEYSTORE_KEY_ALIAS >> secrets.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
