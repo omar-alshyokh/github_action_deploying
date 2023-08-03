@@ -56,7 +56,15 @@ jobs:
       - name: 🔐 Retrieve base64 keystore and decode it to a file
         run: |
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
-          cat +x android/app/keystore.jks
+#          cat +x android/app/keystore.jks
+      - name: Verify JKS File
+        run: |
+          if [ -f "android/app/keystore.jks" ]; then
+            echo "JKS file created successfully!"
+          else
+            echo "Failed to create JKS file!"
+            exit 1
+          fi
 
       - name: Build Android App Bundle
         run: flutter build appbundle
