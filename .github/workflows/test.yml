@@ -16,7 +16,7 @@ jobs:
       - name: Build Android App Bundle
         id: build-android
         env:
-          KEYSTORE: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE: ${{ secrets.KEYSTORE_PASS }}
         run:
           echo $KEYSTORE >> secrets.txt
       - name: Upload artifact
