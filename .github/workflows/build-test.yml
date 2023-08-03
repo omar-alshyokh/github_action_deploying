@@ -18,12 +18,12 @@ jobs:
           distribution: "zulu"
           java-version: "12.x"
           cache: 'gradle'
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.7.10"
-          channel: 'stable'
-          cache: true
+#      - name: Setup Flutter
+#        uses: subosito/flutter-action@v2
+#        with:
+#          flutter-version: "3.7.10"
+#          channel: 'stable'
+#          cache: true
 #      - name: 🔐 Retrieve base64 keystore and decode it to a file
 #        env:
 #          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
@@ -47,6 +47,13 @@ jobs:
 #          echo keyPassword=\${{ secrets.KEYSTORE_KEY_PASSWORD }} > ${{env.PROPERTIES_PATH}}
 #          echo storePassword=\${{ secrets.KEYSTORE_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
 #          echo keyAlias=\${{ secrets.KEYSTORE_KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
+#      - name: 📝🔐 Create keystore.properties file
+#        run: |
+#          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+#          echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
+#          echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> android/key.properties
+#          echo "storeFile=keystore.jks" >> android/key.properties
+#          cat android/key.properties
       - name: 📝🔐 Create keystore.properties file
         run: |
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
@@ -54,19 +61,18 @@ jobs:
           echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=keystore.jks" >> android/key.properties
           cat android/key.properties
-
-      - name: 🔐 Retrieve base64 keystore and decode it to a file
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
-          chmod +x android/app/keystore.jks
-      - name: Verify JKS File
-        run: |
-          if [ -f "android/app/keystore.jks" ]; then
-            echo "JKS file created successfully!"
-          else
-            echo "Failed to create JKS file!"
-            exit 1
-          fi
+#      - name: 🔐 Retrieve base64 keystore and decode it to a file
+#        run: |
+#          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
+#          chmod +x android/app/keystore.jks
+#      - name: Verify JKS File
+#        run: |
+#          if [ -f "android/app/keystore.jks" ]; then
+#            echo "JKS file created successfully!"
+#          else
+#            echo "Failed to create JKS file!"
+#            exit 1
+#          fi
 
 #      - name: Build Android App Bundle
 #        run: flutter build appbundle
