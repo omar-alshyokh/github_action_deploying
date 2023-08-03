@@ -52,6 +52,12 @@ jobs:
           echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=keystore.jks" >> android/key.properties
+      - name: List Files in android Directory
+        run: |
+          ls -R android
+      - name: Print key.properties Content
+        run: |
+          cat android/key.properties
 
 #      - name: 🔐 Retrieve base64 keystore and decode it to a file
 #        run: |
