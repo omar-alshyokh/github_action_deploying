@@ -16,16 +16,15 @@ jobs:
       - name: Build Android App Bundle
         id: build-android
         env:
-          KEYSTORE: ${{ secrets.KEYSTORE_PASS }}
-          KEYSTORE_KEY_PASS: ${{ secrets.KEYSTORE_KEY_PASS }}
-          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+          BASEURL: ${{ secrets.BASEURL }}
+          BASEURL2: ${{ secrets.BASEURL2 }}
+          WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
         run:
-          echo "storePassword=$KEYSTORE" >> secrets.txt;
-          echo "keyPassword=$KEYSTORE_KEY_PASS" >> secrets.txt;
-          echo "keyAlias=$KEYSTORE_KEY_ALIAS" >> secrets.txt;
-          echo "storeFile=keystore.jks" >> secrets.txt;
+          echo "WebSocket_URL=$WEBSOCKET_URL" >> .env;
+          echo "BASEURL2=$BASEURL2" >> .env;
+          echo "BASEURL=$BASEURL" >> .env;
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: cats
-          path: secrets.txt
+          path: .env
