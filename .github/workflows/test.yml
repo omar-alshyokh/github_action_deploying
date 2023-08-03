@@ -9,15 +9,13 @@ jobs:
   build:
     name: Build Android App Bundle
     runs-on: macos-latest
+    environment: production
     steps:
-      - uses: actions/checkout@v3
-        with: # Set the secret as an input
-          super_secret: ${{ secrets.KEYSTORE_PASSWORD }}
-          env: # Or as an environment variable
-            super_secret: ${{ secrets.KEYSTORE_PASSWORD }}
+      - uses: actions/checkout@v2
+
       - name: Set up secret file
         run: |
-          echo 'omar=$super_secret' >> secrets.txt
+          echo 'omar=${{ secrets.KEYSTORE_PASSWORD }}' >> secrets.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
