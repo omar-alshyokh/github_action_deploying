@@ -73,12 +73,12 @@ jobs:
       #            repository: urbanminded/pop-lib-flutter
       #            ref: 0b5f6a01cc0084dd2145a80cb24573a8f56ee427
       #            token: ${{ github.token }}
-      - name: Check Flutter Doctor
-        run: flutter doctor -v
-      - name: Flutter Clean (Optional)
-        run: flutter clean
-      - name: Get Flutter Dependencies
-        run: flutter pub get
+#      - name: Check Flutter Doctor
+#        run: flutter doctor -v
+#      - name: Flutter Clean (Optional)
+#        run: flutter clean
+#      - name: Get Flutter Dependencies
+#        run: flutter pub get
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2
         with:
@@ -89,12 +89,8 @@ jobs:
       - name: Set up Maven environment variables
         uses: s4u/maven-settings-action@v2.8.0
         with:
-          servers: |
-            [{
-                "id": "pop-android",
-                "username": "${{ secrets.MAVEN_USERNAME }}",
-                "password": "${{ secrets.MAVEN_PASSWORD }}"
-            }]
+          servers: '[{"id": "github", "username": "${{secrets.MAVEN_USERNAME}}", "password": "${{secrets.MAVEN_PASSWORD}}"}]'
+          githubServer: false
 
       - name: Build Android APK
         run: flutter build apk --release
