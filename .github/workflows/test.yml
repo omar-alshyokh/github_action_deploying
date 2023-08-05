@@ -86,11 +86,18 @@ jobs:
       - name: List lib Folder Content
         run: |
           ls -lR lib
-      - name: Set up Maven environment variables
-        uses: s4u/maven-settings-action@v2.8.0
-        with:
-          servers: '[{"id": "github", "username": "${{secrets.MAVEN_USERNAME}}", "password": "${{secrets.MAVEN_PASSWORD}}"}]'
-          githubServer: false
+#      - name: Set up Maven environment variables
+#        uses: s4u/maven-settings-action@v2.8.0
+#        with:
+#          servers: '[{"id": "github", "username": "${{secrets.MAVEN_USERNAME}}", "password": "${{secrets.MAVEN_PASSWORD}}"}]'
+#          githubServer: false
+      - name: Set up MyGet environment variables
+        run: |
+          echo "mygetUsername=${{ secrets.MAVEN_USERNAME }}" >> $GITHUB_ENV
+          echo "mygetPassword=${{ secrets.MAVEN_PASSWORD }}" >> $GITHUB_ENV
+
+#      - name: Build with Gradle
+#        run: ./gradlew build  # Use appropriate build command for Maven
 
       - name: Build Android APK
         run: flutter build apk --release
