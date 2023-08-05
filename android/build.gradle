@@ -15,6 +15,14 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven {
+            credentials {
+                username System.getenv('MAVEN_USERNAME')
+                password System.getenv('MAVEN_PASSWORD')
+            }
+            url 'https://www.myget.org/F/urbanminded-pop-android/maven'
+        }
     }
 }
 
