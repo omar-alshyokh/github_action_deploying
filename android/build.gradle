@@ -1,8 +1,11 @@
-//def localProperties = new Properties()
-//def localPropertiesFile = rootProject.file('local.properties')
-//if (localPropertiesFile.exists()) {
-//    localPropertiesFile.load(new FileInputStream(keystorePropertiesFile))
-//}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
 
 buildscript {
     ext.kotlin_version = '1.7.10'
@@ -26,8 +29,8 @@ allprojects {
             credentials {
 //                username System.getenv('MAVEN_USERNAME')
 //                password System.getenv('MAVEN_PASSWORD')
-                username (System.getenv("MAVEN_USERNAME") != null ? System.getenv("MAVEN_USERNAME") : "$MAVEN_USERNAME")
-                password (System.getenv("MAVEN_PASSWORD") != null ? System.getenv("MAVEN_PASSWORD") : "$MAVEN_PASSWORD")
+                username (System.getenv("MAVEN_USERNAME") != null ? System.getenv("MAVEN_USERNAME") : localProperties['MAVEN_USERNAME'])
+                password (System.getenv("MAVEN_PASSWORD") != null ? System.getenv("MAVEN_PASSWORD") : localProperties['MAVEN_PASSWORD'])
             }
             url 'https://www.myget.org/F/urbanminded-pop-android/maven'
         }

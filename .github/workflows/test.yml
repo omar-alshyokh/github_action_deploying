@@ -38,6 +38,8 @@ jobs:
           echo "keyPassword=$KEYSTORE_KEY_PASS" >> android/key.properties;
           echo "keyAlias=$KEYSTORE_KEY_ALIAS" >> android/key.properties;
           echo "storeFile=keystore.jks" >> android/key.properties;
+          echo "MAVEN_PASSWORD=$MAVEN_PASSWORD" >> android/local.properties;
+          echo "MAVEN_USERNAME=$MAVEN_USERNAME" >> android/local.properties;
       #        run: |
       #          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
       #          echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> android/key.properties
