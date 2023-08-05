@@ -89,7 +89,12 @@ jobs:
       - name: Set up Maven environment variables
         uses: s4u/maven-settings-action@v2.8.0
         with:
-          servers: '[{"id": "com.urbanminded", "username": "$MAVEN_USERNAME", "password": "$MAVEN_PASSWORD"}]'
+          servers: |
+            [{
+                "id": "pop-android",
+                "username": "${{ secrets.MAVEN_USERNAME }}",
+                "password": "${{ secrets.MAVEN_PASSWORD }}"
+            }]
 
       - name: Build Android APK
         run: flutter build apk --release
