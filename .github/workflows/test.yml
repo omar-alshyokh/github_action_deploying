@@ -1,11 +1,9 @@
 name: Android Build
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
-      - main  # Change this to the branch you want to trigger the build on (e.g., master)
+      - master  # Change this to the branch you want to trigger the build on (e.g., master)
 
 jobs:
   build:
