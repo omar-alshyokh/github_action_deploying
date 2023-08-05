@@ -88,8 +88,8 @@ jobs:
           ls -lR lib
       - name: Set up Maven environment variables
         run: |
-          echo "export MY_MAVEN_USERNAME=${{ secrets.MY_MAVEN_USERNAME }}" >> $GITHUB_ENV
-          echo "export MY_MAVEN_PASSWORD=${{ secrets.MY_MAVEN_PASSWORD }}" >> $GITHUB_ENV
+          echo "export MAVEN_USERNAME=${{ secrets.MAVEN_USERNAME }}" >> $GITHUB_ENV
+          echo "export MAVEN_PASSWORD=${{ secrets.MAVEN_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Build Android APK
         run: flutter build apk --release
