@@ -106,7 +106,7 @@ jobs:
 #        run: ./gradlew build  # Use appropriate build command for Maven
 
       - name: Build Android APK
-        run: flutter build apk --release
+        run: flutter build appbundle
 
       - name: Save Artifact
         uses: actions/upload-artifact@v2
