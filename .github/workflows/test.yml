@@ -86,8 +86,11 @@ jobs:
       - name: List lib Folder Content
         run: |
           ls -lR lib
-      - name: Build with Gradle
-        run: android/gradlew build
+      - name: Set up Maven environment variables
+        run: |
+          echo "export MY_MAVEN_USERNAME=${{ secrets.MY_MAVEN_USERNAME }}" >> $GITHUB_ENV
+          echo "export MY_MAVEN_PASSWORD=${{ secrets.MY_MAVEN_PASSWORD }}" >> $GITHUB_ENV
+
       - name: Build Android APK
         run: flutter build apk --release
 
