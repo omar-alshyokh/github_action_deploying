@@ -87,7 +87,7 @@ jobs:
         run: |
           ls -lR lib
       - name: Build with Gradle
-        run: ./gradlew build
+        run: android/gradlew build
       - name: Build Android APK
         run: flutter build apk --release
 
