@@ -71,10 +71,10 @@ jobs:
         run: flutter clean
       - name: ⬇️ Get Flutter Dependencies
         run: flutter pub get
-#      - name: Credentials setup
-#        run: |
-#          git config --global credential.helper store
-#          echo "https://omar.alshyokh@gmail.com:${{ secrets.PAT }}@github.com" > ios/.git-credentials
+      - name: Credentials setup
+        run: |
+          git config --global credential.helper store
+          echo "https://omar.alshyokh@gmail.com:${{ secrets.PAT }}@github.com" > ios/.git-credentials
 #      - uses: actions/checkout@v2
 #        with:
 #          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -82,7 +82,7 @@ jobs:
       - name: Dependencies install
         run: |
           cd ios
-          pod repo add pod-specs from https://omar.alshyokh@gmail.com:${{ secrets.PAT }}@github.com/urbanminded/pod-specs.git
+          pod repo add pod-specs from https://github.com/urbanminded/pod-specs.git
           cd ..
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
         run: |
