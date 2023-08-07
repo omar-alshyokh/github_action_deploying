@@ -65,21 +65,23 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 #      - name: ⚙️ Setup Melos
 #        uses: bluefireteam/melos-action@v2
-      - name: ⚙️ Install dependencies for all packages
-        run: melos build:pub_get:all
+      - name: 🧹🧽 Flutter Clean (Optional)
+        run: flutter clean
+      - name: ⬇️ Get Flutter Dependencies
+        run: flutter pub get
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
         run: |
           pushd app/
           flutter build ipa \
             --release \
-            --flavor ${{ inputs.flavor }} \
-            --target lib/main_${{ inputs.flavor }}.dart \
+#            --flavor ${{ inputs.flavor }} \
+#            --target lib/main_${{ inputs.flavor }}.dart \
             --export-options-plist=ios/Runner/ExportOptions.plist
           popd
       - name: 🍏🚀 Deploy to App Store (Testflight)
         uses: apple-actions/upload-testflight-build@v1
         with:
-          app-path: ${{ github.workspace }}/app/build/ios/ipa/flutter_ci_cd_demo.ipa
+          app-path: build/ios/ipa/flutter_ci_cd_demo.ipa
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
