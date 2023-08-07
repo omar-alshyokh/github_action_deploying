@@ -70,8 +70,14 @@ jobs:
         run: flutter clean
       - name: ⬇️ Get Flutter Dependencies
         run: flutter pub get
-      - name: Specs Repo
-        run: pod repo update
+      - name: Credentials setup
+        run: |
+          git config --global credential.helper store
+          echo "https://omar.alshyokh@gmail.com:${{ secrets.PAT }}@github.com" > ~/.git-credentials
+
+      - name: Dependencies install
+        run: |
+          pod install
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
         run: |
           flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
