@@ -33,6 +33,7 @@ jobs:
           KEYCHAIN_PASSWORD: ${{ secrets.IOS_RUNNER_LOCAL_KEYCHAIN_PASSWORD }}
           EXPORT_OPTIONS_BASE64: ${{ secrets.IOS_EXPORT_OPTIONS_BASE64 }}
           POD_GITHUB_API_TOKEN: ${{ secrets.PAT }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -73,12 +74,16 @@ jobs:
       - name: Credentials setup
         run: |
           git config --global credential.helper store
-          echo "https://omar.alshyokh@gmail.com:${{ secrets.PAT }}@github.com" > ~/.git-credentials
-
+          echo "https://omar.alshyokh@gmail.com:${{ secrets.PAT }}@github.com" > ios/.git-credentials
+      - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          repository: urbanminded/urbanminded-pod-specs
       - name: Dependencies install
         run: |
           cd ios
           pod init
+          pod repo add urbanminded-pod-specs from https://github.com/urbanminded/pod-specs.git
           pod install
           cd ..
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
