@@ -53,13 +53,26 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      - name: 📝 Edit pubspec version
-        run: |
-          sed -Ei "" "s/^version: (.*)/version: ${{ inputs.new-pubspec-version }}/" app/pubspec.yaml
       - name: ⚙️ Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.7.0"
+          flutter-version: "3.7.10"
           channel: 'stable'
           cache: true
         id: flutter
+      - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
+        run: |
+          pushd app/
+          flutter build ipa \
+            --release \
+            --flavor ${{ inputs.flavor }} \
+            --target lib/main_${{ inputs.flavor }}.dart \
+            --export-options-plist=ios/Runner/ExportOptions.plist
+          popd
+      - name: 🍏🚀 Deploy to App Store (Testflight)
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: ${{ github.workspace }}/app/build/ios/ipa/flutter_ci_cd_demo.ipa
+          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
