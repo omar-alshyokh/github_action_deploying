@@ -78,6 +78,7 @@ jobs:
       - name: Dependencies install
         run: |
           cd ios
+          pod init
           pod install
           cd ..
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
