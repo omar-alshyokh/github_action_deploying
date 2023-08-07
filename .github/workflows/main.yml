@@ -58,7 +58,6 @@ jobs:
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
         run: |
-          pushd app/
           flutter build ipa \
             --release \
             --export-options-plist=ios/Runner/ExportOptions.plist
