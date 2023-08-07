@@ -58,9 +58,7 @@ jobs:
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
         run: |
-          flutter build ipa \
-            --release \
-            --export-options-plist=ios/Runner/ExportOptions.plist
+          flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
           popd
       - name: 🍏🚀 Deploy to App Store (Testflight)
         uses: apple-actions/upload-testflight-build@v1
