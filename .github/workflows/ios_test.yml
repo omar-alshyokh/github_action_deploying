@@ -82,7 +82,7 @@ jobs:
       - name: Dependencies install
         run: |
           cd ios
-          pod repo add https://omar.alshyokh@gmail.com:${{ secrets.PAT }}@github.com/urbanminded/pod-specs.git
+          pod repo update
           cd ..
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
         run: |
