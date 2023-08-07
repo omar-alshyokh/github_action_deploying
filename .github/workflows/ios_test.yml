@@ -82,7 +82,7 @@ jobs:
       - name: Dependencies install
         run: |
           cd ios
-          pod repo add pod-specs from https://github.com/urbanminded/pod-specs.git
+          pod repo add https://github.com/urbanminded/pod-specs.git
           cd ..
       - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
         run: |
