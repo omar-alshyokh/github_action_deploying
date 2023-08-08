@@ -60,9 +60,7 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      - name: 📝 Edit pubspec version
-        run: |
-          sed -Ei "" "s/^version: (.*)/version: ${{ inputs.new-pubspec-version }}/" app/pubspec.yaml
+
       - name: ⚙️ Setup Flutter
         uses: subosito/flutter-action@v2
         with:
