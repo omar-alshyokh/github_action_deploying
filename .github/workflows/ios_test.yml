@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    environment: production
     steps:
       # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
       - name: Checkout repository
