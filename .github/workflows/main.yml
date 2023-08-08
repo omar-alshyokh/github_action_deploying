@@ -34,7 +34,7 @@ jobs:
           # import certificate and provisioning profile from secrets
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
           echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
-          echo -n "$Export_Options_BASE64" | base64 --decode --output $Export_PATH
+          echo "$Export_Options_BASE64" | base64 -d > ios\Runner\ExportOptions.plist
           # create temporary keychain
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
@@ -54,13 +54,6 @@ jobs:
           cache: true
         id: flutter
 
-      - name: Clean up keychain and provisioning profile
-        if: ${{ always() }}
-        run: |
-          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
-
-
       # Install your project's dependencies
       - run: flutter pub get
 
@@ -75,6 +68,13 @@ jobs:
           name: release-ipa
           # Path to the release files
           path: build/ios/ipa/*.ipa
+
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+
 
 #      - name: 🍏📦 Create iOS ${{ inputs.short-environment-name }} appbundle release
 #        run: |
