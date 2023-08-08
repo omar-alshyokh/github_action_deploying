@@ -47,7 +47,12 @@ jobs:
           channel: 'stable'
           cache: true
       # Install your project's dependencies
-      - run: flutter pub get
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+      - name: Pod Repo Update
+        run: |
+          cd ios
+          pod repo update
 
       # Build and sign the ipa using a single flutter command
       - name: Building IPA
