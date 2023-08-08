@@ -25,11 +25,12 @@ on:
 
 jobs:
   build:
-    name: 🍏📦🚀 Build & deploy iOS ${{ inputs.short-environment-name }} release
+    name: 🍏📦🚀 Build & deploy iOS release
     runs-on: macos-latest
     environment: production
+
     steps:
-      - name: ⬇️ Checkout repository
+      - name: Checkout the code
         uses: actions/checkout@v2
       - name: 🔐 Install Apple certificate and provisioning profile
         env:

@@ -5,15 +5,15 @@
 #    branches:
 #      - master  # Change this to the branch you want to trigger the build on (e.g., master)
 #
-#jobs:
-#  build:
-#    name: Build IOS
-#    runs-on: macos-latest
-#    environment: production
-#
-#    steps:
-#      - name: Checkout the code
-#        uses: actions/checkout@v2
+jobs:
+  build:
+    name: Build IOS
+    runs-on: macos-latest
+    environment: production
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
 #
 #
 #
