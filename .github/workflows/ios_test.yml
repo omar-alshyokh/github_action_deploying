@@ -49,10 +49,13 @@ jobs:
       # Install your project's dependencies
       - name: Install Flutter Dependencies
         run: flutter pub get
-      - name: Pod Repo Update
+      - name: Update CocoaPods
+        run: gem update cocoapods
+      - name: Install CocoaPods dependencies
         run: |
           cd ios
-          pod repo update
+          pod install
+          cd ..
 
       # Build and sign the ipa using a single flutter command
       - name: Building IPA
