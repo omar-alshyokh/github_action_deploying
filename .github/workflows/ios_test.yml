@@ -30,7 +30,7 @@ jobs:
     environment: production
     steps:
       - name: ⬇️ Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: 🔐 Install Apple certificate and provisioning profile
         env:
           P12_DISTRIBUTION_CERTIFICATE_BASE64: ${{ secrets.APPSTORE_CERT_BASE64 }}
