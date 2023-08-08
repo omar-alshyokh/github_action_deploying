@@ -24,7 +24,7 @@ on:
       - master  # Change this to the branch you want to trigger the build on (e.g., master)
 
 jobs:
-  deployIos:
+  build:
     name: 🍏📦🚀 Build & deploy iOS ${{ inputs.short-environment-name }} release
     runs-on: macos-latest
     environment: production
