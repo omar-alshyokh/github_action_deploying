@@ -46,6 +46,10 @@ jobs:
           flutter-version: "3.7.10"
           channel: 'stable'
           cache: true
+      - name: 🧑‍💻 SSH Agent
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       # Install your project's dependencies
       - name: Install Flutter Dependencies
         run: flutter pub get
