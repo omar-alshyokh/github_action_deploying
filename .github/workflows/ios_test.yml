@@ -57,11 +57,15 @@ jobs:
         run: flutter pub get
       - name: Update CocoaPods
         run: gem update cocoapods
-      - name: Specs Repo
-        run: |
-          cd ios
-          pod repo add pod-specs ${{secrets.GH_USER_NAME}}:${{secrets.PAT}}@github.com/urbanminded/pod-specs.git
-          cd ..
+      - uses: fregante/setup-git-token@v1
+        with:
+          email: ${{secrets.GH_USER_NAME}}
+          token: ${{ secrets.PAT }}
+#      - name: Specs Repo
+#        run: |
+#          cd ios
+#          pod repo add pod-specs ${{secrets.GH_USER_NAME}}:${{secrets.PAT}}@github.com/urbanminded/pod-specs.git
+#          cd ..
       - name: Install CocoaPods dependencies
         run: |
           cd ios
