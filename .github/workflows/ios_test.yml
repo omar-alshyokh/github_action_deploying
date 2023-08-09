@@ -69,6 +69,7 @@ jobs:
       - name: Install CocoaPods dependencies
         run: |
           cd ios
+          chmod 600 ~/.netrc
           pod install
           cd ..
 
