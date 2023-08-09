@@ -68,11 +68,10 @@ jobs:
           name: release-ipa
           # Path to the release files
           path: build/ios/ipa/*.ipa
-
-      - name: 🍏🚀 Deploy to App Store (Testflight)
+      - nam: 🍏🚀 Deploy to App Store (Testflight)
         uses: apple-actions/upload-testflight-build@v1
         with:
-          app-path: build/ios/ipa/flutter_ci_cd_demo.ipa
+          app-path: build/ios/ipa/release-ipa.ipa
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
