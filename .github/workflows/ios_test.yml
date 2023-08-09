@@ -21,6 +21,7 @@ jobs:
           P12_PASSWORD: ${{ secrets.APPSTORE_CERT_PASSWORD }}
           BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          PAT: ${{ secrets.PAT }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -55,6 +56,11 @@ jobs:
         run: flutter pub get
       - name: Update CocoaPods
         run: gem update cocoapods
+      - name: Specs Repo
+        run: |
+          cd ios
+          pod repo add pod-specs https://${PAT}@github.com/urbanminded/pod-specs.git
+          cd ..
       - name: Install CocoaPods dependencies
         run: |
           cd ios
