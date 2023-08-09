@@ -60,7 +60,7 @@ jobs:
       - name: Specs Repo
         run: |
           cd ios
-          pod repo add pod-specs https://${{secrets.GH_USER_NAME}}:${{secrets.PAT}}@github.com/urbanminded/pod-specs.git
+          pod repo add pod-specs ${{secrets.GH_USER_NAME}}:${{secrets.PAT}}@github.com/urbanminded/pod-specs.git
           cd ..
       - name: Install CocoaPods dependencies
         run: |
