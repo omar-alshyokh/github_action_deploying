@@ -7,7 +7,7 @@ on:
 jobs:
   build_android_mobile:
     runs-on: macos-latest
-
+    if: contains(github.ref, 'master') || github.ref == 'master'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
