@@ -1,9 +1,11 @@
-name: 📦🚀 Build & deploy iOS app for an environment
+name: Build & deploy iOS app for an environment
 
 on:
   push:
     branches:
-      - master  # Change this to the branch you want to trigger the build on (e.g., master)
+      - dev
+    tags:
+      - '*-android'
 
 jobs:
   build:
@@ -15,85 +17,25 @@ jobs:
         uses: actions/checkout@v2
 
       # Install  Apple certificate and provisioning profile
-      - name: Install the Apple certificate and provisioning profile
+      - name: 📝🔐 Create keystore.properties file & .env
+        id: build-android
         env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.APPSTORE_CERT_BASE64 }}
-          P12_PASSWORD: ${{ secrets.APPSTORE_CERT_PASSWORD }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-          PAT: ${{ secrets.PAT }}
-          GH_USER_NAME: ${{ secrets.GH_USER_NAME }}
-        run: |
-          # create variables
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-          # import certificate and provisioning profile from secrets
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
-          # create temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          # import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-          # apply provisioning profile
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      # Install flutter
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.7.10"
-          channel: 'stable'
-          cache: true
-      - name: 🧑‍💻 SSH Agent
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      # Install your project's dependencies
-      - name: Install Flutter Dependencies
-        run: flutter pub get
-      - name: Update CocoaPods
-        run: gem update cocoapods
-      - uses: fregante/setup-git-token@v1
-        with:
-          email: ${{secrets.GH_USER_NAME}}
-          token: ${{ secrets.PAT }}
-#      - name: Specs Repo
-#        run: |
-#          cd ios
-#          pod repo add pod-specs ${{secrets.GH_USER_NAME}}:${{secrets.PAT}}@github.com/urbanminded/pod-specs.git
-#          cd ..
-      - name: Install CocoaPods dependencies
-        run: |
-          cd ios
-          chmod 600 ~/.netrc
-          pod install
-          cd ..
+          KEYSTORE: ${{ secrets.KEYSTORE_PASS }}
+          KEYSTORE_KEY_PASS: ${{ secrets.KEYSTORE_KEY_PASS }}
+          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+        run:
+          echo "storePassword=$KEYSTORE" >> android/key.properties;
+          echo "keyPassword=$KEYSTORE_KEY_PASS" >> android/key.properties;
+          echo "keyAlias=$KEYSTORE_KEY_ALIAS" >> android/key.properties;
+          echo "storeFile=keystore.jks" >> android/key.properties;
+          echo "MAVEN_PASSWORD=$MAVEN_PASSWORD" >> android/local.properties;
+          echo "MAVEN_USERNAME=$MAVEN_USERNAME" >> android/local.properties;
 
-      # Build and sign the ipa using a single flutter command
-      - name: Building IPA
-        run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
-
-      # Collect the file and upload as artifact
-      - name: Collect IPA Artifacts
+      - name: Save Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: release-ipa
-          # Path to the release files
-          path: build/ios/ipa/*.ipa
-      - name: 🍏🚀 Deploy to App Store (Testflight)
-        uses: apple-actions/upload-testflight-build@v1
-        with:
-          app-path: build/ios/ipa/github_action_deploying.ipa
-          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
-      # Important! Cleanup: remove the certificate and provisioning profile from the runner!
-      - name: Clean up keychain and provisioning profile
-        if: ${{ always() }}
-        run: |
-          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+          name: app-bundle
+          path: android/key.properties
