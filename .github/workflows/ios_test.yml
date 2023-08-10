@@ -1,4 +1,4 @@
-name: 📦🚀 Build & deploy iOS app for an environment
+name: Build & deploy iOS app for an environment
 
 on:
   push:
