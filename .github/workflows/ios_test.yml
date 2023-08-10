@@ -2,6 +2,8 @@ name: 📦🚀 Build & deploy iOS app for an environment
 
 on:
   push:
+    branches:
+      - dev
     tags:
       - '*-android'
 
