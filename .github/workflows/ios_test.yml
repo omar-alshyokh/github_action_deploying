@@ -2,8 +2,8 @@ name: 📦🚀 Build & deploy iOS app for an environment
 
 on:
   push:
-    branches:
-      - master  # Change this to the branch you want to trigger the build on (e.g., master)
+    tags:
+      - '*-android'
 
 jobs:
   build:
@@ -41,59 +41,3 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      # Install flutter
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.7.10"
-          channel: 'stable'
-          cache: true
-      - name: 🧑‍💻 SSH Agent
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      # Install your project's dependencies
-      - name: Install Flutter Dependencies
-        run: flutter pub get
-      - name: Update CocoaPods
-        run: gem update cocoapods
-      - uses: fregante/setup-git-token@v1
-        with:
-          email: ${{secrets.GH_USER_NAME}}
-          token: ${{ secrets.PAT }}
-#      - name: Specs Repo
-#        run: |
-#          cd ios
-#          pod repo add pod-specs ${{secrets.GH_USER_NAME}}:${{secrets.PAT}}@github.com/urbanminded/pod-specs.git
-#          cd ..
-      - name: Install CocoaPods dependencies
-        run: |
-          cd ios
-          chmod 600 ~/.netrc
-          pod install
-          cd ..
-
-      # Build and sign the ipa using a single flutter command
-      - name: Building IPA
-        run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
-
-      # Collect the file and upload as artifact
-      - name: Collect IPA Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-ipa
-          # Path to the release files
-          path: build/ios/ipa/*.ipa
-      - name: 🍏🚀 Deploy to App Store (Testflight)
-        uses: apple-actions/upload-testflight-build@v1
-        with:
-          app-path: build/ios/ipa/github_action_deploying.ipa
-          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
-      # Important! Cleanup: remove the certificate and provisioning profile from the runner!
-      - name: Clean up keychain and provisioning profile
-        if: ${{ always() }}
-        run: |
-          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
